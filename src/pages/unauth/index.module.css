@@ -1,0 +1,27 @@
+.unauth {
+}
+
+.header {
+  height: 100px;
+  padding: 25px;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.form-outer {
+  width: 400px;
+  height: 100%;
+  box-shadow: rgb(240 240 240) 0px 0px 10px;
+  background: white;
+}
+
+.tip {
+  color: rgb(63, 133, 250);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  font-weight: 600;
+  cursor: pointer;
+}

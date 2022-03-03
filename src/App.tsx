@@ -1,25 +1,27 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
+import { Spin } from "@douyinfe/semi-ui";
+import { BrowserRouter } from "react-router-dom";
+import { AuthPage } from "./pages/auth";
+import { useAuth } from "./context/auth";
+import { UnAuthPage } from "./pages/unauth";
+
 function App() {
+  const auth = useAuth();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        {auth.isIdle || auth.isLoading || auth.isFetching ? (
+          <Spin style={{ width: "90vw", height: "90vh" }} />
+        ) : auth?.data.status ? (
+          <UnAuthPage />
+        ) : (
+          <AuthPage />
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 
