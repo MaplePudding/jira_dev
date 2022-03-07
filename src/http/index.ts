@@ -1,6 +1,12 @@
 import { http } from "./fetch";
-import { getDataFromLocalStorage } from "../utils";
+import {
+  cleanEmptyString,
+  cleanObject,
+  getDataFromLocalStorage,
+} from "../utils";
 import { AuthContextType } from "../types/auth";
+import { UserType } from "../types/user";
+import { ProjectType } from "../types/project";
 
 export const apiMe = () => {
   const token = getDataFromLocalStorage("__auth_provider_token__");
@@ -26,3 +32,45 @@ export const apiRegister = ({
 }) => {
   return http("/register", "POST", { username, password }, { token: "token" });
 };
+
+export const apiProjects = (personId: string | null, name: string | null) => {
+  return http<ProjectType[]>(
+    "/projects",
+    "GET",
+    cleanEmptyString({ personId: personId, name: name }),
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiCreateProject = (
+  name: string,
+  organization: string,
+  personId: string
+) => {
+  return http<ProjectType>(
+    "/projects",
+    "POST",
+    { name, organization, personId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiDeleteProject = (key: string) => {
+  return http(
+    `/projects/${key}`,
+    "DELETE",
+    {},
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiUsers = () => {
+  return http<UserType[]>(
+    "/users",
+    "GET",
+    {},
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiProject = () => {};

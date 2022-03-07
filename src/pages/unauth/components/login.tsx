@@ -1,10 +1,8 @@
 import { Button, Form, Toast, useFormState } from "@douyinfe/semi-ui";
 import styles from "./login.module.css";
-import { useNavigate } from "react-router";
 import { useLogin } from "../../../utils/hooks/useLogin";
 import { setLocalStorage } from "../../../utils";
 import { useAuth } from "../../../context/auth";
-import { useMount } from "../../../utils/hooks/useMount";
 import { useEffect } from "react";
 
 export const Login = () => {

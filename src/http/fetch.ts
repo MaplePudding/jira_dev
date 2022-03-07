@@ -3,7 +3,7 @@ const url = process.env.REACT_APP_API_URL;
 
 export const http = <T>(
   api: string,
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "DELETE",
   data: any,
   config: any = {}
 ) => {
@@ -18,6 +18,15 @@ export const http = <T>(
             "Content-Type": "application/json",
           },
           ...config,
+        });
+      } else if (method === "POST") {
+        return fetch(`${url}${api}`, {
+          method: method,
+          headers: {
+            Authorization: config.token ? `Bearer ${config?.token}` : "",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         });
       } else {
         return fetch(`${url}${api}`, {

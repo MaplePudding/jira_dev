@@ -10,6 +10,7 @@ const defaultActxValue = {
   isIdle: true,
   data: {},
   isSuccess: false,
+  refetch: () => {},
 } as AuthContextType;
 
 export const AuthContext =
