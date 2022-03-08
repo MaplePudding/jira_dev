@@ -54,9 +54,9 @@ export const useCreateProject = () => {
         return previous;
       },
       onError: (err, newTodo, context) => {
-        //@ts-ignore
         queryClient.setQueryData(
           [searchPanelParams.personId, searchPanelParams.name],
+          //@ts-ignore
           context.previous
         );
       },

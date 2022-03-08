@@ -1,28 +1,26 @@
+import { ProjectType } from "../../../types/project";
 import { Button, Form, Modal, Toast, useFormState } from "@douyinfe/semi-ui";
-import { UserSelect } from "../../../components/userSelect";
-import {
-  useCreateProject,
-  useSetCreateProject,
-} from "../../../utils/hooks/useCreateProject";
+import { useEditProject } from "../../../utils/hooks/useEditProject";
 import { useUsers } from "../../../utils/hooks/useUsers";
-import { useSetSearchPanelParams } from "../../../utils/hooks/useSearchPanel";
-import { useQueryClient } from "react-query";
+import { projects } from "jira-dev-tool/dist/server/initial-data";
 
-export const CreateProject = ({ visible }: { visible: boolean }) => {
-  const setCreateProject = useSetCreateProject();
-
-  const onOk = () => {};
-
-  const onClose = () => {
-    setCreateProject({ open: false });
-  };
-
+export const EditModal = ({
+  editKey,
+  visible,
+  setEditVisible,
+  record,
+}: {
+  editKey: string;
+  visible: boolean;
+  setEditVisible: (flag: boolean) => void;
+  record: any;
+}) => {
+  const { data } = useUsers();
   const Submit = () => {
     const form = useFormState();
-    const mutation = useCreateProject();
+    const mutation = useEditProject();
     if (mutation.isSuccess) {
-      Toast.info("创建成功");
-      setCreateProject({ open: false });
+      setEditVisible(false);
     }
     if (mutation.isError) {
       Toast.info("创建失败");
@@ -32,16 +30,18 @@ export const CreateProject = ({ visible }: { visible: boolean }) => {
         block
         loading={mutation.isLoading}
         onClick={() => {
-          mutation.mutate(form.values);
-          setCreateProject({ open: false });
+          mutation.mutate({ ...record, ...form.values, id: record.key });
+          setEditVisible(false);
         }}
       >
-        创建项目
+        编辑项目
       </Button>
     );
   };
-
-  const { data } = useUsers();
+  const handleOk = () => {};
+  const handleCancel = () => {
+    setEditVisible(false);
+  };
   const generateOptionList = () => {
     const list = data?.map((v) => {
       return {
@@ -53,18 +53,17 @@ export const CreateProject = ({ visible }: { visible: boolean }) => {
     list?.unshift({ value: "", label: "负责人", otherKey: "" });
     return list;
   };
-
   return (
     <Modal
-      title="创建项目"
-      visible={visible}
-      onOk={onOk}
-      onCancel={onClose}
-      footer={null}
       style={{
         width: "350px",
         height: "400px",
       }}
+      title="编辑项目"
+      visible={visible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={null}
     >
       <Form
         labelPosition="inset"
@@ -77,10 +76,15 @@ export const CreateProject = ({ visible }: { visible: boolean }) => {
           alignItems: "stretch",
         }}
       >
-        <Form.Input field="name" required />
-        <Form.Input field="organization" required />
+        <Form.Input field="name" initValue={record?.name} required />
+        <Form.Input
+          field="organization"
+          initValue={record?.organization}
+          required
+        />
         <Form.Select
           style={{ width: "100%" }}
+          initValue={record?.personId}
           field="personId"
           optionList={generateOptionList()}
         />

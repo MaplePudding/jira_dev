@@ -3,7 +3,7 @@ const url = process.env.REACT_APP_API_URL;
 
 export const http = <T>(
   api: string,
-  method: "GET" | "POST" | "DELETE",
+  method: "GET" | "POST" | "DELETE" | "PATCH",
   data: any,
   config: any = {}
 ) => {
@@ -19,7 +19,7 @@ export const http = <T>(
           },
           ...config,
         });
-      } else if (method === "POST") {
+      } else if (method === "POST" || method === "PATCH") {
         return fetch(`${url}${api}`, {
           method: method,
           headers: {

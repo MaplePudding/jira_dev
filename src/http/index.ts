@@ -64,6 +64,17 @@ export const apiDeleteProject = (key: string) => {
   );
 };
 
+export const apiEditProject = (project: ProjectType) => {
+  return http<ProjectType>(
+    `/projects/${project.id}`,
+    "PATCH",
+    {
+      ...project,
+    },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
 export const apiUsers = () => {
   return http<UserType[]>(
     "/users",

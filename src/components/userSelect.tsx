@@ -19,10 +19,10 @@ export const UserSelect = (props: props) => {
     return list;
   };
   return (
-    //@ts-ignore
     <Select
       placeholder="负责人"
       optionList={generateOptionList()}
+      //@ts-ignore
       onChange={(v) => setSearchParams({ personId: v })}
     />
   );

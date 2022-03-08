@@ -7,6 +7,7 @@ import {
   Modal,
   Rating,
   Table,
+  Toast,
   useFormState,
 } from "@douyinfe/semi-ui";
 import { IconMore } from "@douyinfe/semi-icons";
@@ -19,12 +20,14 @@ import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "../../utils/hooks/useDebounce";
 import { CreateProject } from "./components/createProject";
 import {
+  useCreateProject,
   useSetCreateProject,
   useShowCreateProject,
 } from "../../utils/hooks/useCreateProject";
 import { useState } from "react";
 import { useDeleteProject } from "../../utils/hooks/useDeleteProject";
 import { useEditProject } from "../../utils/hooks/useEditProject";
+import { EditModal } from "./components/editProject";
 
 const DeleteModal = ({
   deleteKey,
@@ -49,35 +52,16 @@ const DeleteModal = ({
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-    ></Modal>
+    />
   );
 };
 
-//const EditModal = ({deleteKey, visible, setDeleteVisible, record}:{deleteKey:string, visible:boolean,setDeleteVisible: (flag:boolean) => void, record:any}) =>{
-//    const mutation = useEditProject()
-//    const handleOk = () =>{
-//        mutation.mutate({key:deleteKey})
-//        setDeleteVisible(false)
-//    }
-//    const handleCancel = () =>{
-//        setDeleteVisible(false)
-//    }
-//    return(
-//        <Modal
-//            title="编辑项目"
-//            visible={visible}
-//            onOk={handleOk}
-//            onCancel={handleCancel}
-//        >
-//
-//        </Modal>
-//    )
-//}
 export const Projects = () => {
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [deleteKey, setDeleteKey] = useState("");
   const [editVisible, setEditVisible] = useState(false);
   const [editKey, setEditKey] = useState("");
+  const [curEditProject, setCurEditProject] = useState<ProjectType>();
   const [params, _] = useSearchParams();
   const debounceName = useDebounce<string | null>(params.get("name"), 1000);
   const { data: projects, isLoading } = useProjects(
@@ -126,7 +110,15 @@ export const Projects = () => {
           <Dropdown
             render={
               <Dropdown.Menu>
-                <Dropdown.Item>编辑</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setEditKey(key);
+                    setCurEditProject(record);
+                    setEditVisible(true);
+                  }}
+                >
+                  编辑
+                </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
                     setDeleteKey(key);
@@ -150,12 +142,14 @@ export const Projects = () => {
       projects?.map((v: ProjectType) => {
         return {
           key: v.id,
+          id: v.id,
           name: v.name,
           createdTime: dayjs(Number(v.created)).format("YYYY-MM-DD"),
           personName: users?.filter((u) => u.id === v.personId)?.length
             ? (users?.filter((u) => u.id === v.personId))[0].name
             : "未知",
           organization: v.organization,
+          personId: v.personId,
         };
       }) || []
     );
@@ -179,6 +173,12 @@ export const Projects = () => {
         setDeleteVisible={setDeleteVisible}
         deleteKey={deleteKey}
         visible={deleteVisible}
+      />
+      <EditModal
+        visible={editVisible}
+        editKey={editKey}
+        setEditVisible={setEditVisible}
+        record={curEditProject}
       />
     </div>
   );
