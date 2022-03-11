@@ -7,6 +7,9 @@ import {
 import { AuthContextType } from "../types/auth";
 import { UserType } from "../types/user";
 import { ProjectType } from "../types/project";
+import { TaskItemType, TaskType } from "../types/task";
+import { KanbanType } from "../types/kanban";
+import { Kanban } from "../pages/auth/kanban/kanban";
 
 export const apiMe = () => {
   const token = getDataFromLocalStorage("__auth_provider_token__");
@@ -80,6 +83,86 @@ export const apiUsers = () => {
     "/users",
     "GET",
     {},
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiTaskTypes = () => {
+  return http<TaskType[]>(
+    "/taskTypes",
+    "GET",
+    {},
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiKanbans = (projectId: string) => {
+  return http<KanbanType[]>(
+    "/kanbans",
+    "GET",
+    { projectId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiCreateKanban = ({
+  name,
+  projectId,
+}: {
+  name: string;
+  projectId: string;
+}) => {
+  return http<KanbanType>(
+    "/kanbans",
+    "POST",
+    { name, projectId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiCreateTask = ({
+  kanbanId,
+  name,
+  projectId,
+}: {
+  kanbanId: string;
+  name: string;
+  projectId: string;
+}) => {
+  return http<TaskItemType>(
+    "/tasks",
+    "POST",
+    { kanbanId, name, projectId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiTasks = (projectId: string) => {
+  return http<TaskItemType[]>(
+    "/tasks",
+    "GET",
+    { projectId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiReorderKanban = ({
+  fromId,
+  fromKanbanId,
+  referenceId,
+  toKanbanId,
+  type,
+}: {
+  fromId: number;
+  fromKanbanId: number;
+  referenceId: number;
+  toKanbanId: number;
+  type: string;
+}) => {
+  return http(
+    "/tasks/reorder",
+    "POST",
+    { fromId, fromKanbanId, referenceId, toKanbanId, type },
     { token: getDataFromLocalStorage("__auth_provider_token__") }
   );
 };

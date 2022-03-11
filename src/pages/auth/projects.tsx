@@ -1,5 +1,5 @@
 import styles from "./projects.module.css";
-import { Header } from "./components/header";
+import { Header } from "../../components/header";
 import {
   Button,
   Dropdown,
@@ -16,7 +16,7 @@ import { useProjects } from "../../utils/hooks/useProjects";
 import { useUsers } from "../../utils/hooks/useUsers";
 import { ProjectType } from "../../types/project";
 import dayjs from "dayjs";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounce } from "../../utils/hooks/useDebounce";
 import { CreateProject } from "./components/createProject";
 import {
@@ -63,6 +63,7 @@ export const Projects = () => {
   const [editKey, setEditKey] = useState("");
   const [curEditProject, setCurEditProject] = useState<ProjectType>();
   const [params, _] = useSearchParams();
+  const navigate = useNavigate();
   const debounceName = useDebounce<string | null>(params.get("name"), 1000);
   const { data: projects, isLoading } = useProjects(
     params.get("personId"),
@@ -88,6 +89,19 @@ export const Projects = () => {
     {
       title: "名称",
       dataIndex: "name",
+      render: (text: string, record: any) => {
+        return (
+          <span
+            onClick={() => navigate(`${record.id}`)}
+            style={{
+              color: "#0052CC",
+              cursor: "pointer",
+            }}
+          >
+            {text}
+          </span>
+        );
+      },
     },
     {
       title: "部门",

@@ -1,12 +1,12 @@
-import logo from "../../../img/logo.svg";
-import styles from "./header.module.css";
+import logo from "../img/logo.svg";
+import styles from "../pages/auth/components/header.module.css";
 import { Dropdown, Button } from "@douyinfe/semi-ui";
-import { useUsers } from "../../../utils/hooks/useUsers";
-import { UserType } from "../../../types/user";
-import { useLogout } from "../../../utils/hooks/useLogout";
-import { useAuth } from "../../../context/auth";
-import { useMe } from "../../../utils/hooks/useMe";
-import { useSetCreateProject } from "../../../utils/hooks/useCreateProject";
+import { useUsers } from "../utils/hooks/useUsers";
+import { UserType } from "../types/user";
+import { useLogout } from "../utils/hooks/useLogout";
+import { useAuth } from "../context/auth";
+import { useMe } from "../utils/hooks/useMe";
+import { useSetCreateProject } from "../utils/hooks/useCreateProject";
 
 const ProjectDropDown = () => {
   const setCreateProject = useSetCreateProject();

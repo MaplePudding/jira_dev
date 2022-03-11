@@ -1,0 +1,5 @@
+.core {
+  width: 100%;
+  flex: 1;
+  overflow-x: scroll;
+}

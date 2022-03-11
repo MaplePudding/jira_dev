@@ -1,0 +1,13 @@
+.kanban {
+  flex: 1;
+  padding: 32px;
+}
+
+.kanban-h {
+  width: 170px;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.kanban-body {
+}
