@@ -1,6 +1,5 @@
 import styles from "./kanban.module.css";
 import { SearchPanel } from "./component/searchPanel";
-import { useCurProjectId } from "../../../utils/hooks/useCurProjectId";
 import { Core } from "./component/core";
 
 export const Kanban = () => {

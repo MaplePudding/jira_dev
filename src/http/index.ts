@@ -10,6 +10,7 @@ import { ProjectType } from "../types/project";
 import { TaskItemType, TaskType } from "../types/task";
 import { KanbanType } from "../types/kanban";
 import { Kanban } from "../pages/auth/kanban/kanban";
+import { EpicType } from "../types/epic";
 
 export const apiMe = () => {
   const token = getDataFromLocalStorage("__auth_provider_token__");
@@ -163,6 +164,39 @@ export const apiReorderKanban = ({
     "/tasks/reorder",
     "POST",
     { fromId, fromKanbanId, referenceId, toKanbanId, type },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiEpics = (projectId: string) => {
+  return http<EpicType[]>(
+    "/epics",
+    "GET",
+    { projectId },
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiDeleteEpic = (epicId: string) => {
+  return http(
+    `/epics/${epicId}`,
+    "DELETE",
+    {},
+    { token: getDataFromLocalStorage("__auth_provider_token__") }
+  );
+};
+
+export const apiCreateEpic = ({
+  name,
+  projectId,
+}: {
+  name: string;
+  projectId: string;
+}) => {
+  return http(
+    "/epics",
+    "POST",
+    { name, projectId },
     { token: getDataFromLocalStorage("__auth_provider_token__") }
   );
 };

@@ -31,7 +31,7 @@ export const Core = () => {
   return (
     <div
       className={`${styles.core} flex-row-start`}
-      style={{ height: "480px" }}
+      style={{ width: "700px", height: "100px" }}
     >
       <DragDropContext onDragStart={dragStart} onDragEnd={dragEnd}>
         {kanbans?.map((v) => {

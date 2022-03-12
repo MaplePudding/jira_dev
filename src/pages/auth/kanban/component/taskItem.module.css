@@ -1,6 +1,7 @@
 .item {
-  height: 120px;
+  height: 100px;
   margin-bottom: 7px;
+  flex-shrink: 0;
   background: white;
   display: flex;
   justify-content: center;

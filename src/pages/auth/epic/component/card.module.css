@@ -1,0 +1,19 @@
+.card {
+  width: 90%;
+  height: 100px;
+  margin: 20px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.c-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.c-time {
+  color: gray;
+}
